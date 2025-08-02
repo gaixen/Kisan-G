@@ -1,0 +1,15 @@
+{
+  "welcome": "स्वागत है, {{name}}!",
+  "selectLanguage": "अपनी भाषा चुनें",
+  "uploadCropImage": "फसल की छवि अपलोड करें",
+  "diagnoseCrop": "अपनी फसल तुरंत निदान करें",
+  "marketInsights": "बाजार की जानकारी",
+  "governmentSchemes": "सरकारी योजनाएं",
+  "myProfile": "मेरी प्रोफ़ाइल",
+  "signOut": "साइन आउट",
+  "voiceInputPlaceholder": "जेमिनी से पूछें...",
+  "applyNow": "अब आवेदन करें",
+  "eligible": "आप पात्र हैं!",
+  "loading": "लोड हो रहा है...",
+  "error": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।"
+}

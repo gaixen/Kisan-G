@@ -1,0 +1,13 @@
+python-dotenv
+Flask
+selenium
+beautifulsoup4
+requests
+werkzeug
+soupsieve
+langchain
+langchain_community
+regex
+fastapi
+uvicorn
+pydantic

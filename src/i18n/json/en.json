@@ -1,0 +1,15 @@
+{
+  "welcome": "Welcome, {{name}}!",
+  "selectLanguage": "Select your language",
+  "uploadCropImage": "Upload Crop Image",
+  "diagnoseCrop": "Diagnose Your Crop Instantly",
+  "marketInsights": "Market Insights",
+  "governmentSchemes": "Government Schemes",
+  "myProfile": "My Profile",
+  "signOut": "Sign Out",
+  "voiceInputPlaceholder": "Ask Gemini...",
+  "applyNow": "Apply Now",
+  "eligible": "You are eligible!",
+  "loading": "Loading...",
+  "error": "Something went wrong. Please try again."
+}

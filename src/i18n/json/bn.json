@@ -1,0 +1,15 @@
+{
+ "welcome": "স্বাগত, {{name}}!",
+ "selectLanguage": "আপনার ভাষা নির্বাচন করুন",
+ "uploadCropImage": "ফসলের ছবি আপলোড করুন",
+ "diagnoseCrop": "অবিলম্বে আপনার ফসল নির্ণয় করুন",
+ "marketInsights": "বাজার অন্তর্দৃষ্টি",
+ "governmentSchemes": "সরকারি প্রকল্প",
+ "myProfile": "আমার প্রোফাইল",
+ "signOut": "সাইন আউট",
+ "voiceInputPlaceholder": "জেমিনিকে জিজ্ঞাসা করুন...",
+ "applyNow": "এখন আবেদন করুন",
+ "eligible": "আপনি যোগ্য!",
+ "loading": "লোড হচ্ছে...",
+ "error": "কিছু ভুল হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।"
+}

@@ -1,0 +1,15 @@
+{
+ "welcome": "સ્વાગત છે, {{name}}!",
+ "selectLanguage": "તમારી ભાષા પસંદ કરો",
+ "uploadCropImage": "પાક છબી અપલોડ કરો",
+ "diagnoseCrop": "તમારા પાકનું તરત જ નિદાન કરો",
+ "marketInsights": "બજાર આંતરદૃષ્ટિ",
+ "governmentSchemes": "સરકારી યોજનાઓ",
+ "myProfile": "મારી પ્રોફાઈલ",
+ "signOut": "સાઇન આઉટ",
+ "voiceInputPlaceholder": "જેમિનીને પૂછો...",
+ "applyNow": "અરજી કરો",
+ "eligible": "તમે પાત્ર છો!",
+ "loading": "લોડ કરી રહ્યું છે...",
+ "error": "કંઈક ખોટું થયું. કૃપા કરીને ફરી પ્રયાસ કરો."
+}

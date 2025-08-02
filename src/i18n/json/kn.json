@@ -1,0 +1,15 @@
+{
+ "welcome": "ಸ್ವಾಗತ, {{name}}!",
+ "selectLanguage": "ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+ "uploadCropImage": "ಬೆಳೆ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ",
+ "diagnoseCrop": "ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ತಕ್ಷಣವೇ ಪತ್ತೆ ಮಾಡಿ",
+ "marketInsights": "ಮಾರುಕಟ್ಟೆ ಒಳನೋಟಗಳು",
+ "governmentSchemes": "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು",
+ "myProfile": "ನನ್ನ ಪ್ರೊಫೈಲ್",
+ "signOut": "ಸೈನ್ ಔಟ್",
+ "voiceInputPlaceholder": "ಜೆಮಿನಿಯನ್ನು ಕೇಳಿ...",
+ "applyNow": "ಈಗ ಅನ್ವಯಿಸು",
+ "eligible": "ನೀವು ಅರ್ಹರು!",
+ "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
+ "error": "ಏನೋ ತಪ್ಪಾಗಿದೆ। ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ।"
+}

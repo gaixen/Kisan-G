@@ -1,0 +1,15 @@
+{
+ "welcome": "ਜੀ ਆਇਆਂ ਨੂੰ, {{name}}!",
+ "selectLanguage": "ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ",
+ "uploadCropImage": "ਫਸਲ ਦੀ ਤਸਵੀਰ ਅੱਪਲੋਡ ਕਰੋ",
+ "diagnoseCrop": "ਆਪਣੀ ਫਸਲ ਦਾ ਤੁਰੰਤ ਨਿਦਾਨ ਕਰੋ",
+ "marketInsights": "ਮਾਰਕੀਟ ਇਨਸਾਈਟਸ",
+ "governmentSchemes": "ਸਰਕਾਰੀ ਯੋਜਨਾਵਾਂ",
+ "myProfile": "ਮੇਰੀ ਪ੍ਰੋਫ਼ਾਈਲ",
+ "signOut": "ਸਾਈਨ ਆਉਟ",
+ "voiceInputPlaceholder": "ਜੇਮਿਨੀ ਨੂੰ ਪੁੱਛੋ...",
+ "applyNow": "ਹੁਣੇ ਅਰਜ਼ੀ ਦਿਓ",
+ "eligible": "ਤੁਸੀਂ ਯੋਗ ਹੋ!",
+ "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+ "error": "ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
+}
