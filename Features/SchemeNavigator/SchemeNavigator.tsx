@@ -1,3 +1,66 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const SchemeNavigator: React.FC = () => {
+  const [schemes, setSchemes] = useState<any[]>([]);
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  
+  const searchSchemes = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post('/api/schemes/search', { query });
+      setSchemes(response.data.schemes);
+    } catch (error) {
+      console.error('Error searching schemes:', error);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto p-4 pb-20">
+      <h2 className="text-xl font-bold mb-4">Find Agricultural Schemes</h2>
+      <div className="flex gap-2 mb-4">
+        <input 
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for schemes..."
+          className="border p-2 rounded w-full"
+        />
+        <button
+          onClick={searchSchemes}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Search
+        </button>
+      </div>
+      {loading ? (
+        <div>Loading schemes...</div>
+      ) : schemes.length > 0 ? (
+        <div>
+          {schemes.map((scheme, idx) => (
+            <div key={idx} className="mb-4 p-4 border rounded">
+              <h3 className="text-lg font-semibold">
+                {scheme.source.title} 
+                <a href={scheme.source.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline ml-2">
+                  (Source)
+                </a>
+              </h3>
+              <p>{scheme.content}</p>
+              <p className="text-sm text-gray-600">{scheme.source.organization}</p>
+              <p className="text-sm text-gray-500">Last updated: {scheme.source.last_updated}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>No schemes found.</div>
+      )}
+    </div>
+  );
+};
+
+export default SchemeNavigator;
+
 import React, { useState, useContext } from 'react';
 import { searchSchemes, applyScheme } from '../../src/services/api';
 import { AppContext } from '../../src/hooks/AppContext';
