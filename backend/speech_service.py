@@ -1,65 +1,80 @@
 import logging
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+from google.cloud import speech_v1p1beta1 as speech
 from werkzeug.utils import secure_filename
 import os
-import base64
+from dotenv import load_dotenv
+from pydub import AudioSegment
 
+load_dotenv()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
+
+app = Flask(__name__)
+CORS(app)
+
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
+os.makedirs('uploads', exist_ok=True)
+
 class ChirpSTTService:
-    """Google Chirp Speech-to-Text service integration"""
     
-    def __init__(self):
+    def __init__(self, file_ext) -> None:
         self.supported_formats = ['wav', 'mp3', 'ogg', 'webm']
-    
-    def transcribe_audio(self, audio_file_path: str) -> dict:
-        """
-        Transcribe audio using Google's Chirp STT model
+        self.file_ext = file_ext
         
-        Args:
-            audio_file_path: Path to the audio file
-            
-        Returns:
-            Dictionary containing transcription results
-        """
+    def transcribe_audio(self, audio_file_path: str) -> dict:
         try:
-            # Mock transcription - in real implementation, use Google Cloud Speech-to-Text API
-            # with Chirp model configuration
+            client = speech.SpeechClient()
             
-            mock_transcriptions = [
-                "What is the best fertilizer for wheat crops?",
-                "How to prevent pest attacks on tomatoes?",
-                "When should I harvest my rice crop?",
-                "What are the symptoms of leaf blight disease?",
-                "How much water does my corn field need?"
-            ]
+            with open(audio_file_path, 'rb') as f:
+                content = f.read()
+                
+            audio = speech.RecognitionAudio(content=content)
             
-            # Simulate transcription result
-            result = {
-                "transcript": mock_transcriptions[0],  # In reality, this would be the actual transcription
-                "confidence": 0.92,
-                "language": "en-US",
-                "duration": 3.5,
+            config = speech.RecognitionConfig(
+                encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+                sample_rate_hertz=16000,
+                language_code = "en-US",
+                model = "chirp"
+            )
+            response = client.recognize(config=config, audio=audio)
+            if not response.results:
+                return {"error": "no transcription resuls."}
+            
+            result = response.results[0].alternatives[0]
+            return {
+                "transcript": result.transcript,
+                "confidence": result.confidence,
+                "language": result.language_code,
+                "duration": None,
                 "model": "chirp"
             }
-            
-            logger.info(f"Audio transcribed successfully: {result['transcript']}")
-            return result
             
         except Exception as e:
             logger.error(f"Error transcribing audio: {str(e)}")
             return {"error": f"Transcription failed: {str(e)}"}
     
+    def get_audio_encoding(self, file_ext: str):
+        mapping = {
+            'wav': speech.RecognitionConfig.AudioEncoding.LINEAR16,
+            'mp3': speech.RecognitionConfig.AudioEncoding.MP3,
+            'ogg': speech.RecognitionConfig.AudioEncoding.OGG_OPUS,
+            'webm': speech.RecognitionConfig.AudioEncoding.OGG_OPUS,  # WebM often uses OGG_OPUS codec
+            'flac': speech.RecognitionConfig.AudioEncoding.FLAC
+        }
+        if file_ext not in mapping:
+            raise ValueError(f"Unsupported audio format: {file_ext}")
+        return mapping[file_ext]
+        
+    
     def process_audio_data(self, audio_data: bytes, format: str = 'wav') -> dict:
         """
         Process raw audio data for transcription
-        
-        Args:
-            audio_data: Raw audio bytes
-            format: Audio format (wav, mp3, etc.)
-            
-        Returns:
-            Transcription result
+        Args:audio_data: Raw audio bytes,format: Audio format (wav, mp3, etc.)
+        Returns:Transcription result
         """
         try:
             if format not in self.supported_formats:
@@ -88,9 +103,7 @@ class ChirpSTTService:
     def get_supported_languages(self) -> list:
         """
         Get list of supported languages for STT
-        
-        Returns:
-            List of supported language codes
+        Returns:List of supported language codes
         """
         return [
             "en-US", "en-IN", "hi-IN", "bn-IN", "te-IN", 
@@ -98,9 +111,9 @@ class ChirpSTTService:
         ]
 
 # Initialize STT service
-stt_service = ChirpSTTService()
+stt_service = ChirpSTTService
 
-app = Flask(__name__)
+
 
 @app.route('/api/speech/transcribe', methods=['POST'])
 def transcribe_speech():
