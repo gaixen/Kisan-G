@@ -107,7 +107,7 @@ class GovernmentRAGSystem:
             for doc in self.documents:
                 # Check if query matches keywords or content
                 if any(keyword in query_lower for keyword in doc['keywords']) or \
-                   query_lower in doc['content'].lower():
+                    query_lower in doc['content'].lower():
                     
                     source = self.sources[doc['source_id']]
                     scheme_info = {
