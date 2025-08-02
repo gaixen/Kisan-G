@@ -1,6 +1,14 @@
 python-dotenv
 Flask
+flask-cors
+pydub
+openmeteo-requests
+requests-cache
+retry-requests
+numpy
+pandas
 selenium
+audioop-lts
 beautifulsoup4
 requests
 werkzeug
@@ -11,3 +19,5 @@ regex
 fastapi
 uvicorn
 pydantic
+geocoder
+google-cloud-speech
