@@ -20,6 +20,12 @@
 .env.production.local
 
 package-lock.json
+/backend/.cache.sqlite
+sentiment-insights-end-to-end-58b735dc1b75.json
+/backend/vectorstores/__pycache__/
+/backend/__pycache__/
+backend/snippets/__pycache__/
+/backend/tests/
 
 npm-debug.log*
 yarn-debug.log*

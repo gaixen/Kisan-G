@@ -8,8 +8,14 @@ retry-requests
 numpy
 pandas
 selenium
+opencv-python
+pillow
+langgraph
 audioop-lts
+langchain-core
+langchain-google-genai
 beautifulsoup4
+langchain-tavily
 requests
 werkzeug
 soupsieve
@@ -21,3 +27,4 @@ uvicorn
 pydantic
 geocoder
 google-cloud-speech
+# unsloth

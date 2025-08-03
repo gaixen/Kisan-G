@@ -3,14 +3,16 @@ from typing import List, Dict, Optional, Tuple
 import json
 import logging
 from datetime import datetime
+from flask_cors import CORS
 import requests
 from bs4 import BeautifulSoup
 
+logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger(__name__)
 
 class DocumentSource:
     """Represents a document source with metadata"""
-    def __init__(self, url: str, title: str, organization: str, last_updated: str = None):
+    def __init__(self, url: str, title: str, organization: str, last_updated: str = '') -> None:
         self.url = url
         self.title = title
         self.organization = organization
@@ -88,7 +90,7 @@ class GovernmentRAGSystem:
             # Mock embedding - in real implementation, use proper embedding model
             self.embeddings.append(np.random.rand(128).tolist())
     
-    def search_schemes(self, query: str, user_profile: Dict = None) -> List[Dict]:
+    def search_schemes(self, query: str, user_profile: Optional[Dict] = None) -> List[Dict]:
         """
         Search for relevant schemes based on query and user profile
         
