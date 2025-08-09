@@ -1,3 +1,25 @@
+# Running Instructions
+
+open the project directory and run the command
+
+```bash
+npm start
+```
+
+- This will execute the frontend of the application
+
+Next change the working directory to ./server
+
+```bash
+cd ./server
+```
+
+```bash
+python app.py
+```
+
+- This will connect the backend server to the frontend
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
