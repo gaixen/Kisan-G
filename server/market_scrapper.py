@@ -10,11 +10,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (NoSuchElementException, TimeoutException, WebDriverException, StaleElementReferenceException)
 from bs4 import BeautifulSoup
 
-# --- Setup Logging ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
-# --- Fallback Functions and Config (if an external API is not available) ---
 def format_price(price): return price
 def clean_text_data(data): return data
 def log_request(c, s, m, success, rc=0): pass

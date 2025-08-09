@@ -54,8 +54,6 @@ class CropDiseaseAnalyzer:
         cap.release()
         return frames
 
-    # --- LangGraph Nodes: The Steps in our Pipeline ---
-
     def analyze_media_node(self, state: AgentState) -> AgentState:
         """
         Node 1: Analyzes the user's media (image/video/text) to make an initial diagnosis.
@@ -146,9 +144,6 @@ Create a final report in Markdown format with the following sections:
         return {**state, "final_report": final_report_response.content}
 
     def _build_graph(self):
-        """
-        Builds the LangGraph agentic workflow.
-        """
         workflow = StateGraph(AgentState)
         # Add the nodes (the functions to call)
         workflow.add_node("analyze_media", self.analyze_media_node)
