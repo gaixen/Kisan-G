@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../../src/hooks/AppContext';
+import { AppContext } from '../../hooks/AppContext';
 
 const Profile: React.FC = () => {
   const { user, logout } = useContext(AppContext);
@@ -8,7 +8,7 @@ const Profile: React.FC = () => {
     <div className="max-w-md mx-auto p-4 pb-20">
       <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center">
         <img
-          src="/assets/profile-placeholder.png"
+          src='assets/profile_avatar.png'
           alt="User avatar"
           className="w-24 h-24 rounded-full mb-4"
         />

@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaStethoscope, FaChartBar, FaGift, FaUser } from 'react-icons/fa';
+import { FaHome, FaStethoscope, FaChartBar, FaGift, FaLanguage, FaUser, FaFlask } from 'react-icons/fa';
 
 const tabs = [
   { path: "/", label: "Home", icon: <FaHome /> },
   { path: "/crop-doctor", label: "Crop Doctor", icon: <FaStethoscope /> },
   { path: "/market", label: "Market", icon: <FaChartBar /> },
   { path: "/schemes", label: "Schemes", icon: <FaGift /> },
+  { path: "/soil-analysis", label: "Soil", icon: <FaFlask /> },
+  { path: "/language-select", label : "language", icon: <FaLanguage /> },
   { path: "/profile", label: "Profile", icon: <FaUser /> },
 ];
 

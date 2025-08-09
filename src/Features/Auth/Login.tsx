@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthForm from './AuthForm';
-import { useAuth } from '../../src/hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
