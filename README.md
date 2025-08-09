@@ -20,6 +20,18 @@ TAVILY_API_KEY = ""
 GOOGLE_APPLICATION_CREDENTIALS = /*path of json file from console.cloud.google.com*/
 ```
 
+- Install the dependencies using the command
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+- run this command to get the react dependencies
+
+```bash
+npm install
+```
+
 open the project directory and run the command
 
 ```bash
