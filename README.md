@@ -1,5 +1,25 @@
 # Running Instructions
 
+- clone the repo using the command
+
+```bash
+git clone https://github.com/gaixen/Kisan-G.git kisan-g
+```
+
+- change the working directory using :
+
+```bash
+cd ./kisan-g
+```
+
+- add a .env file in the root directory with the following content
+
+```
+GEMINI_API_KEY = ""
+TAVILY_API_KEY = ""
+GOOGLE_APPLICATION_CREDENTIALS = /*path of json file from console.cloud.google.com*/
+```
+
 open the project directory and run the command
 
 ```bash
