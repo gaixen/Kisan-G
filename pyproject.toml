@@ -1,0 +1,38 @@
+[project]
+name = "remote"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "assemblyai>=0.43.1",
+    "audioop-lts>=0.2.2",
+    "beautifulsoup4>=4.13.4",
+    "fastapi>=0.116.1",
+    "flask>=3.1.2",
+    "flask-cors>=6.0.1",
+    "geocoder>=1.38.1",
+    "google-cloud-speech>=2.33.0",
+    "langchain>=0.3.27",
+    "langchain-community>=0.3.27",
+    "langchain-core>=0.3.74",
+    "langchain-google-genai>=2.1.9",
+    "langchain-tavily>=0.2.11",
+    "langgraph>=0.6.6",
+    "numpy>=2.3.2",
+    "opencv-python>=4.11.0.86",
+    "openmeteo-requests>=1.7.1",
+    "pandas>=2.3.2",
+    "pillow>=11.3.0",
+    "pydantic>=2.11.7",
+    "pydub>=0.25.1",
+    "python-dotenv>=1.1.1",
+    "regex>=2025.7.34",
+    "requests>=2.32.5",
+    "requests-cache>=1.2.1",
+    "retry-requests>=2.0.0",
+    "selenium>=4.35.0",
+    "soupsieve>=2.7",
+    "uvicorn>=0.35.0",
+    "werkzeug>=3.1.3",
+]

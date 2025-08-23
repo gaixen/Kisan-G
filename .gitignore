@@ -3,10 +3,15 @@
 # dependencies
 /node_modules
 /.pnp
+.venv/
 .pnp.js
+uv.lock
+.python-version
 
 # testing
 /coverage
+server/__pycache__
+server/vectorstores/__pycache__/
 
 # production
 /build
@@ -21,19 +26,13 @@
 
 package-lock.json
 /backend/.cache.sqlite
-sentiment-insights-end-to-end-22ae91786b28.json
+sentiment-insights-end-to-end-58b735dc1b75.json
 /backend/vectorstores/__pycache__/
 /backend/__pycache__/
 backend/snippets/__pycache__/
 /backend/tests/
-server/uploads
-uploads
-server/.env.example
-server/__pycache__/
-server/vectorstores/__pycache__/
-.cache.sqlite
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-kisan_app.db
+.vercel

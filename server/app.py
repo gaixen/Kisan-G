@@ -39,10 +39,10 @@ except ImportError as e:
     WeatherService = None
 
 try:
-    from speech_service import ChirpSTTService
+    from voice import AudioTranscriber
 except ImportError as e:
-    print(f"Warning: Could not import ChirpSTTService: {e}")
-    ChirpSTTService = None
+    print(f"Warning: Could not import Transcriber: {e}")
+    AudioTranscriber = None
 
 try:
     from whatsapp_service import WhatsAppService
@@ -50,10 +50,8 @@ except ImportError as e:
     print(f"Warning: Could not import WhatsAppService: {e}")
     WhatsAppService = None
 
-# --- Basic Flask App Setup ---
 app = Flask(__name__)
 
-# Configure CORS to allow requests from React frontend
 CORS(app, resources={
     r"/api/*": {
         "origins": ["http://localhost:3000", "http://127.0.0.1:3000"],
@@ -108,6 +106,38 @@ def api_health():
             '/api/stats'
         ]
     })
+
+@app.route('/api/speech-to-text', methods=['POST'])
+def speech_to_text():
+    """
+    Transcribes an audio file.
+    Expects an 'audio' file in the multipart form data.
+    """
+    if 'audio' not in request.files:
+        return jsonify({'error': 'No audio file part in the request'}), 400
+    
+    audio_file = request.files['audio']
+    if audio_file.filename == '':
+        return jsonify({'error': 'No audio file selected'}), 400
+
+    filename = secure_filename(audio_file.filename)
+    # file_ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else 'wav'
+    
+    temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    audio_file.save(temp_path)
+
+    try:
+        if AudioTranscriber:
+            stt_service = AudioTranscriber(audio_file=temp_path)
+            result = stt_service.transcriber(audio_file=temp_path)
+            return jsonify({'transcript': result})
+        else:
+            return jsonify({'error': 'Speech-to-text service not available'}), 503
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
 
 @app.route('/api/weather', methods=['GET'])
 def get_weather():
@@ -200,18 +230,18 @@ def get_market_trends():
     if not all([commodity, state, market]):
         error_response = {'error': 'Missing required parameters: commodity, state, market'}
         db_manager.log_request('/api/market-trends', 'POST', 
-                             {'commodity': commodity, 'state': state, 'market': market}, 
-                             400, error_response, time.time() - start_time)
+                            {'commodity': commodity, 'state': state, 'market': market}, 
+                            400, error_response, time.time() - start_time)
         return jsonify(error_response), 400
 
     try:
         # Check if we have cached data in database first
         cached_data = db_manager.get_market_trends(commodity, state, market)
         if cached_data:
-            logger.info(f"Returning cached market trends data")
+            logger.info("Returning cached market trends data")
             db_manager.log_request('/api/market-trends', 'POST', 
-                                 {'commodity': commodity, 'state': state, 'market': market}, 
-                                 200, cached_data, time.time() - start_time)
+                                {'commodity': commodity, 'state': state, 'market': market}, 
+                                200, cached_data, time.time() - start_time)
             return jsonify(cached_data)
         
         # Try to get fresh data from scraper
@@ -221,10 +251,10 @@ def get_market_trends():
                 trends = scraper.get_price_trends(commodity, state, market)
                 # Store in database
                 db_manager.store_market_trends(commodity, state, market, trends)
-                logger.info(f"Fresh market trends data retrieved and stored")
+                logger.info("Fresh market trends data retrieved and stored")
                 db_manager.log_request('/api/market-trends', 'POST', 
-                                     {'commodity': commodity, 'state': state, 'market': market}, 
-                                     200, trends, time.time() - start_time)
+                                    {'commodity': commodity, 'state': state, 'market': market}, 
+                                    200, trends, time.time() - start_time)
                 return jsonify(trends)
             except Exception as scraper_error:
                 logger.warning(f"Market scraper failed: {scraper_error}, falling back to mock data")
@@ -253,19 +283,19 @@ def get_market_trends():
         
         # Store mock data in database
         db_manager.store_market_trends(commodity, state, market, mock_data)
-        logger.info(f"Mock market trends data stored and returned")
+        logger.info("Mock market trends data stored and returned")
         
         db_manager.log_request('/api/market-trends', 'POST', 
-                             {'commodity': commodity, 'state': state, 'market': market}, 
-                             200, mock_data, time.time() - start_time)
+                            {'commodity': commodity, 'state': state, 'market': market}, 
+                            200, mock_data, time.time() - start_time)
         return jsonify(mock_data)
         
     except Exception as e:
         logger.error(f"Error getting market trends: {str(e)}")
         error_response = {'error': f'An error occurred: {str(e)}'}
         db_manager.log_request('/api/market-trends', 'POST', 
-                             {'commodity': commodity, 'state': state, 'market': market}, 
-                             500, error_response, time.time() - start_time)
+                            {'commodity': commodity, 'state': state, 'market': market}, 
+                            500, error_response, time.time() - start_time)
         return jsonify(error_response), 500
 
 @app.route('/api/govt-schemes', methods=['GET'])
@@ -311,38 +341,6 @@ def get_govt_schemes():
     except Exception as e:
         logger.error(f"Error getting government schemes: {str(e)}")
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
-
-@app.route('/api/speech-to-text', methods=['POST'])
-def speech_to_text():
-    """
-    Transcribes an audio file using Google's Chirp model.
-    Expects an 'audio' file in the multipart form data.
-    """
-    if 'audio' not in request.files:
-        return jsonify({'error': 'No audio file part in the request'}), 400
-    
-    audio_file = request.files['audio']
-    if audio_file.filename == '':
-        return jsonify({'error': 'No audio file selected'}), 400
-
-    filename = secure_filename(audio_file.filename)
-    file_ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else 'wav'
-    
-    temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    audio_file.save(temp_path)
-
-    try:
-        if ChirpSTTService:
-            stt_service = ChirpSTTService(file_ext=file_ext)
-            result = stt_service.transcribe_audio(audio_file_path=temp_path)
-            return jsonify(result)
-        else:
-            return jsonify({'error': 'Speech-to-text service not available'}), 503
-    except Exception as e:
-        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
-    finally:
-        if os.path.exists(temp_path):
-            os.remove(temp_path)
 
 @app.route('/api/soil-analysis', methods=['GET'])
 def get_soil_analysis():
@@ -410,5 +408,4 @@ def send_whatsapp_message():
 
 
 if __name__ == '__main__':
-    # Running on port 5001 to avoid conflict with React's default port 3000
     app.run(debug=True, port=5001)
