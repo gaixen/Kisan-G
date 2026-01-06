@@ -29,12 +29,28 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const handleTestWhatsapp = async () => {
+    // Prompt user for phone number
+    const phoneNumber = window.prompt(
+      'Enter phone number (with country code, e.g., +911234567890):',
+      ''
+    );
+    
+    if (!phoneNumber) {
+      setWhatsappStatus('Phone number is required');
+      return;
+    }
+    
+    // Basic validation
+    const cleanedNumber = phoneNumber.trim();
+    if (cleanedNumber.length < 10) {
+      setWhatsappStatus('Invalid phone number');
+      return;
+    }
+    
     setWhatsappStatus("Sending...");
     try {
-      // NOTE: Replace with a real number for testing
-      const testPhoneNumber = "1234567890"; 
-      const testMessage = "Hello from Agri-Assist! Your crop analysis is ready.";
-      const res = await sendWhatsappMessage(testPhoneNumber, testMessage);
+      const testMessage = "Hello from Kisan-G! This is a test message from your AI Farming Assistant.";
+      const res = await sendWhatsappMessage(cleanedNumber, testMessage);
       setWhatsappStatus(`Success: ${res.data.status}`);
     } catch (err: any) {
       console.error('Error sending WhatsApp message:', err);

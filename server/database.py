@@ -3,6 +3,9 @@ import json
 import os
 from datetime import datetime
 from typing import Dict, Any, Optional, List
+from utils.logging import get_logger, log_exception, log_execution_time
+
+logger = get_logger(__name__)
 
 class DatabaseManager:
     def __init__(self, db_name: str = "kisan_app.db"):
@@ -97,8 +100,10 @@ class DatabaseManager:
         
         conn.commit()
         conn.close()
-        print("Database initialized successfully!")
+        logger.info("Database initialized successfully!")
     
+    @log_exception()
+    @log_execution_time()
     def log_request(self, endpoint: str, method: str, parameters: Dict = None, 
                    response_status: int = 200, response_data: Any = None, execution_time: float = 0):
         """Log API request details"""
@@ -120,6 +125,8 @@ class DatabaseManager:
         conn.commit()
         conn.close()
     
+    @log_exception()
+    @log_execution_time()
     def store_market_trends(self, commodity: str, state: str, market: str, trends_data: Dict):
         """Store market trends data"""
         conn = sqlite3.connect(self.db_path)
@@ -147,6 +154,8 @@ class DatabaseManager:
         conn.commit()
         conn.close()
     
+    @log_exception()
+    @log_execution_time()
     def get_market_trends(self, commodity: str, state: str, market: str) -> Optional[Dict]:
         """Get stored market trends data"""
         conn = sqlite3.connect(self.db_path)
@@ -178,6 +187,8 @@ class DatabaseManager:
             }
         return None
     
+    @log_exception()
+    @log_execution_time()
     def store_govt_schemes(self, query: str, schemes_data: List[Dict], message: str = None):
         """Store government schemes data"""
         conn = sqlite3.connect(self.db_path)
@@ -191,6 +202,8 @@ class DatabaseManager:
         conn.commit()
         conn.close()
     
+    @log_exception()
+    @log_execution_time()
     def get_govt_schemes(self, query: str) -> Optional[Dict]:
         """Get stored government schemes data"""
         conn = sqlite3.connect(self.db_path)
@@ -212,6 +225,8 @@ class DatabaseManager:
             }
         return None
     
+    @log_exception()
+    @log_execution_time()
     def store_weather_data(self, latitude: float, longitude: float, weather_info: Dict):
         """Store weather data"""
         conn = sqlite3.connect(self.db_path)
@@ -226,6 +241,8 @@ class DatabaseManager:
         conn.close()
 
     
+    @log_exception()
+    @log_execution_time()
     def store_soil_analysis(self, latitude: float, longitude: float, soil_data: Dict):
         """Store soil analysis data"""
         conn = sqlite3.connect(self.db_path)
@@ -239,6 +256,8 @@ class DatabaseManager:
         conn.commit()
         conn.close()
     
+    @log_exception()
+    @log_execution_time()
     def store_crop_analysis(self, filename: str, query: str, analysis_result: Dict):
         """Store crop analysis result"""
         conn = sqlite3.connect(self.db_path)
@@ -252,6 +271,8 @@ class DatabaseManager:
         conn.commit()
         conn.close()
     
+    @log_exception()
+    @log_execution_time()
     def get_request_stats(self) -> Dict:
         """Get request statistics"""
         conn = sqlite3.connect(self.db_path)

@@ -1,6 +1,6 @@
 import os
 import base64
-import logging
+from utils.logging import get_logger
 import json
 from typing import TypedDict, List, Any
 from PIL import Image
@@ -11,8 +11,7 @@ from langchain_tavily import TavilySearch
 from langgraph.graph import StateGraph, END
 from dotenv import load_dotenv
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 load_dotenv()
 

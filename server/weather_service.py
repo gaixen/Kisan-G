@@ -1,13 +1,11 @@
-import logging
+from utils.logging import get_logger, log_exception, log_execution_time
 import pandas as pd
 import openmeteo_requests
 import requests_cache
 from retry_requests import retry
 from access_location import access_location
 
-# Setup logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 class WeatherService:
     def __init__(self):
@@ -17,6 +15,8 @@ class WeatherService:
         self.openmeteo = openmeteo_requests.Client(session=self.retry_session)
         logger.info("WeatherService initialized.")
 
+    @log_exception()
+    @log_execution_time()
     def get_weather_for_static_location(self):
         """
         Fetches weather data for a static location determined by the access_location service.

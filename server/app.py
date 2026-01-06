@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import openmeteo_requests
 import requests_cache
-import logging
+from utils.logging import get_logger, setup_logging, RequestLogger
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from retry_requests import retry
@@ -10,45 +10,22 @@ from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 from database import DatabaseManager
 
-# Load environment variables
 load_dotenv()
 
-# Backend service modules - with proper error handling
-try:
-    from agentic_int import CropDiseaseAnalyzer
-except ImportError as e:
-    print(f"Warning: Could not import CropDiseaseAnalyzer: {e}")
-    CropDiseaseAnalyzer = None
-
-try:
-    from market_scrapper import MarketDataScraper
-except ImportError as e:
-    print(f"Warning: Could not import MarketDataScraper: {e}")
-    MarketDataScraper = None
-
-try:
-    from vectorstores.gov_rag_system import GovernmentRAGSystem
-except ImportError as e:
-    print(f"Warning: Could not import GovernmentRAGSystem: {e}")
-    GovernmentRAGSystem = None
-
-try:
-    from weather_service import WeatherService
-except ImportError as e:
-    print(f"Warning: Could not import WeatherService: {e}")
-    WeatherService = None
-
-try:
-    from voice import AudioTranscriber
-except ImportError as e:
-    print(f"Warning: Could not import Transcriber: {e}")
-    AudioTranscriber = None
+# Initialize centralized logging
+setup_logging()
+logger = get_logger(__name__)
 
 try:
     from whatsapp_service import WhatsAppService
+    from agentic_int import CropDiseaseAnalyzer
+    from market_scrapper import MarketDataScraper
+    from vectorstores.gov_rag_system import GovernmentRAGSystem
+    from weather_service import WeatherService
+    from voice import AudioTranscriber
 except ImportError as e:
-    print(f"Warning: Could not import WhatsAppService: {e}")
-    WhatsAppService = None
+    logger.warning(f"Warning: Error Importing: {str(e)}")
+    CropDiseaseAnalyzer = None
 
 app = Flask(__name__)
 
@@ -60,9 +37,7 @@ CORS(app, resources={
     }
 })
 
-# Setup logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Note: logging already configured via utils.logging setup above
 
 # Initialize the database manager
 db_manager = DatabaseManager()

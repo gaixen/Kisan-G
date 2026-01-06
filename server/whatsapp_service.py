@@ -1,6 +1,6 @@
 import os
 import requests
-import logging
+from utils.logging import get_logger, log_exception, log_execution_time
 
 class WhatsAppService:
     """
@@ -11,9 +11,10 @@ class WhatsAppService:
         self.phone_number_id = os.getenv('WHATSAPP_PHONE_NUMBER_ID')
         self.access_token = os.getenv('WHATSAPP_ACCESS_TOKEN')
         self.is_configured = all([self.api_url, self.phone_number_id, self.access_token])
-        logging.basicConfig(level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger(__name__)
 
+    @log_exception()
+    @log_execution_time()
     def send_message(self, to_phone_number: str, message: str) -> dict:
         """
         Sends a text message to a given phone number.

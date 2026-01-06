@@ -2,7 +2,7 @@ import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from typing import List, Dict
-import logging
+from utils.logging import get_logger
 import os
 from dotenv import load_dotenv
 from vectorstores.gov_rag_system import DocumentSource, GovernmentRAGSystem
@@ -12,7 +12,7 @@ load_dotenv()
 load_dotenv(dotenv_path = os.path.join(os.path.dirname(__file__), '.env'))
 app = Flask(__name__)
 CORS(app)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 rag_system = GovernmentRAGSystem()
 

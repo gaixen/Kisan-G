@@ -27,4 +27,3 @@ pydantic
 geocoder
 google-cloud-speech
 assemblyai
-# unsloth

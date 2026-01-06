@@ -1,4 +1,5 @@
-import time, json, logging, os, sys
+import time, json, os, sys
+from utils.logging import get_logger, log_exception, log_execution_time
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 import sqlite3
@@ -10,8 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (NoSuchElementException, TimeoutException, WebDriverException, StaleElementReferenceException)
 from bs4 import BeautifulSoup
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 def format_price(price): return price
 def clean_text_data(data): return data
 def log_request(c, s, m, success, rc=0): pass
@@ -148,6 +148,8 @@ class MarketDataScraper:
         
         logger.error(f"Failed to scrape data after {MAX_ATTEMPTS} attempts due to repeated stale element errors.")
         return None 
+    @log_exception()
+    @log_execution_time()
     def find_most_recent_market_data(self, commodity: str, state: str, market: str, max_days_to_check: int = 14) -> List[Dict]:
         """
         [ROBUST] Searches backwards day-by-day to find the most recent available data.
@@ -167,6 +169,8 @@ class MarketDataScraper:
         logger.warning(f"No data found for '{commodity}' in '{market}, {state}' within the last {max_days_to_check} days.")
         return []
 
+    @log_exception()
+    @log_execution_time()
     def get_price_trends(self, commodity: str, state: str, market: str, days: int = 7) -> Dict:
         """
         [LIVE] Calculates price trends by scraping data for each of the last N days.
@@ -197,6 +201,7 @@ class MarketDataScraper:
             "average_price": round(sum(prices) / len(prices), 2), "latest_price": prices[-1],
             "trend": trend, "percentage_change": round(p_change, 2),
         }
+
 
 if __name__ == "__main__":
     scraper = MarketDataScraper(headless=True)  # Set to False to watch the browser
