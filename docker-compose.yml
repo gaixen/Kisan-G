@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Main application service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kisan-g-app
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=sqlite:///./kisan_app.db
+    env_file:
+      - .env
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+      - app-data:/app/data
+    restart: unless-stopped
+    networks:
+      - kisan-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx reverse proxy (optional, for production)
+  nginx:
+    image: nginx:alpine
+    container_name: kisan-g-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - kisan-network
+
+  # Redis cache (optional, for caching)
+  redis:
+    image: redis:7-alpine
+    container_name: kisan-g-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - kisan-network
+    command: redis-server --appendonly yes
+
+networks:
+  kisan-network:
+    driver: bridge
+
+volumes:
+  app-data:
+  redis-data:
