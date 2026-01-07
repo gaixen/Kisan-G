@@ -1,3 +1,21 @@
+# Project Description
+
+Farmers today face a multitude of challenges. Access to timely and accurate information regarding crop
+diseases, market prices, government support systems, and environmental conditions is often fragmented and
+difficult to obtain. This information gap can lead to reduced yields, financial losses, and an inability
+to take advantage of available resources. Kisan-G aims to bridge this gap by providing a one-stop
+solution that is both powerful and easy to use.
+
+# Solution
+
+Kisan-G is a multi-faceted web application(extendable to modile as well) designed to empower farmers by providing them with advanced
+tools and timely information to improve crop yield, increase profitability, and make informed decisions.
+Leveraging a sophisticated backend powered by AI and web scraping, and a user-friendly frontend built with
+React, Agri-Assist integrates several critical services into a single, accessible platform. The key
+features include an AI-powered "Crop Doctor" for disease diagnosis, a "Market Analyst" for real-time price
+trends, a "Scheme Navigator" for accessing information on government agricultural schemes, and a "Soil
+and Weather" analysis module for precision farming.
+
 # Running Instructions
 
 - clone the repo using the command
